@@ -2,6 +2,7 @@ FROM alpine:3.10
 
 RUN apk add curl && \
     curl --fail https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/linux/amd64/kubectl > /bin/kubectl && \
-    chmod 0755 /bin/kubectl
+    curl --fail -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.2.3/kustomize_kustomize.v3.2.3_linux_amd64 > /bin/kustomize && \
+    chmod 0755 /bin/kubectl /bin/kustomize
 
 CMD while true;do sleep 3600; done

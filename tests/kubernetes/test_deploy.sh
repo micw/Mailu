@@ -88,6 +88,16 @@ deploy_ingress_controller() {
 	echo "Ingress controller ready."
 }
 
+deploy_mailu() {
+	step "Deploying mailu using kustomize"
+
+	set +e
+	# create namespace, ignore error if it already exists
+	docker-compose exec tools sh -c "kubectl --kubeconfig kubeconfig.yaml create ns mailu-mailserver" >/dev/null 2>&1
+	set -e
+	docker-compose exec tools sh -c "kustomize build --load_restrictor none | kubectl --kubeconfig kubeconfig.yaml apply -f -"
+}
+
 stop_cluster
 
 start_cluster
@@ -95,3 +105,8 @@ start_cluster
 await_cluster_ready
 
 deploy_ingress_controller
+
+deploy_mailu
+
+echo "Mailu should now be running at"
+echo "http://172.28.1.2.xip.io"

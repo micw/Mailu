@@ -1,0 +1,19 @@
+---
+
+resources:
+  - ../../docs/kubernetes/mailu/configmap.yaml
+  - ../../docs/kubernetes/mailu/ingress.yaml
+
+patchesJson6902:
+  - target:
+      group: extensions
+      version: v1beta1
+      kind: Ingress
+      name: mailu-ingress
+      namespace: mailu-mailserver
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: 172.28.1.2.xip.io
+      - op: remove
+        path: /spec/tls
