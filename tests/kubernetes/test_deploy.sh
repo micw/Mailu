@@ -104,5 +104,11 @@ deploy_ingress_controller
 
 deploy_mailu
 
-echo "Mailu should now be running at"
-echo "http://172.28.1.2.xip.io"
+echo "Please wait until everything is pulled and started. This might take several minutes."
+echo "Mailu should then be available running at"
+echo
+echo "Admin: http://172.28.1.2.xip.io/admin/ui"
+echo "        Username: admin@example.com"
+echo "        Password: admin"
+echo
+echo "Webmail: http://172.28.1.2.xip.io"

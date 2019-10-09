@@ -17,6 +17,21 @@ resources:
 
 patchesJson6902:
   - target:
+      version: v1
+      kind: ConfigMap
+      name: mailu-config
+      namespace: mailu-mailserver
+    patch: |-
+      - op: add
+        path: /data/INITIAL_ADMIN_ACCOUNT
+        value: admin
+      - op: add
+        path: /data/INITIAL_ADMIN_DOMAIN
+        value: example.com
+      - op: add
+        path: /data/INITIAL_ADMIN_PW
+        value: admin
+  - target:
       group: extensions
       version: v1beta1
       kind: Ingress
