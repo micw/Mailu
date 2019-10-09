@@ -91,10 +91,6 @@ deploy_ingress_controller() {
 deploy_mailu() {
 	step "Deploying mailu using kustomize"
 
-	set +e
-	# create namespace, ignore error if it already exists
-	docker-compose exec tools sh -c "kubectl --kubeconfig kubeconfig.yaml create ns mailu-mailserver" >/dev/null 2>&1
-	set -e
 	docker-compose exec tools sh -c "kustomize build --load_restrictor none | kubectl --kubeconfig kubeconfig.yaml apply -f -"
 }
 

@@ -1,0 +1,60 @@
+# we use hostPath volumes on the container here which maps to tmpfs docker compose
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-hdd
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/redis-hdd
+    type: DirectoryOrCreate
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: redis-hdd
+  namespace: mailu-mailserver
+spec:
+  volumeName: redis-hdd
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mail-storage
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /data/mail-storage
+    type: DirectoryOrCreate
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mail-storage
+  namespace: mailu-mailserver
+spec:
+  volumeName: mail-storage
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
