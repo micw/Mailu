@@ -12,6 +12,7 @@ resources:
   - ../../docs/kubernetes/mailu/security.yaml
   - ../../docs/kubernetes/mailu/smtp.yaml
   - ../../docs/kubernetes/mailu/webmail.yaml
+  - ../../docs/kubernetes/mailu/webdav.yaml
   - ../../docs/kubernetes/mailu/ingress.yaml
 
 patchesJson6902:
