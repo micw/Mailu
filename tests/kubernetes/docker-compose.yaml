@@ -1,0 +1,51 @@
+version: '3'
+
+networks:
+  testing_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+
+services:
+  tools:
+    build:
+      context: .
+      dockerfile: Dockerfile-tools
+    network_mode: host
+    volumes:
+    - ../..:/mailu
+    working_dir: /mailu/tests/kubernetes
+  server:
+    image: rancher/k3s:v0.8.1
+    command: server --disable-agent
+    environment:
+    - K3S_CLUSTER_SECRET=thisclusterisprivatebutnotsecret
+    - K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml
+    - K3S_KUBECONFIG_MODE=666
+    volumes:
+    - k3s-server:/var/lib/rancher/k3s
+    # This is just so that we get the kubeconfig file out
+    - .:/output
+    ports:
+    - 6443:6443
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.1
+
+  node:
+    image: rancher/k3s:v0.8.1
+    tmpfs:
+    - /run
+    - /var/run
+    privileged: true
+    environment:
+    - K3S_URL=https://server:6443
+    - K3S_CLUSTER_SECRET=thisclusterisprivatebutnotsecret
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.2
+
+volumes:
+  k3s-server: {}
+
