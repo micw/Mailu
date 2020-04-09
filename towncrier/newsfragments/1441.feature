@@ -1,0 +1,1 @@
+Postfix logging via rsyslog, test request logs are filtered out. Optional logging to file via POSTFIX_LOG_FILE env variable
